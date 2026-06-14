@@ -7,38 +7,44 @@ import (
 	"fmt"
 
 	"github.com/idorocodes/warpget/internal"
+	"github.com/idorocodes/warpget/pkg"
 	"github.com/spf13/cobra"
 )
 
 var downloadCmd = &cobra.Command{
-	Use:   "download [url]",
+	Use:   "download [url] [chunks]",
 	Short: "Downloads a file",
-	Long: `Download initiates a high-performance concurrent download of the file 
-provided via the URL. It splits the file into chunks and downloads them 
-in parallel to maximize network throughput.`,
-	Args: cobra.ExactArgs(2),
+	Long:  `Download initiates a high-performance concurrent download...`,
+	Args:  cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		targetURL := args[0]
 		numOfChunks := args[1]
-	 
+		
+		// 1. Get metadata
 		size, supportsRange, err := internal.FileInfo(targetURL)
 		if err != nil {
 			return fmt.Errorf("failed to get file info: %w", err)
 		}
 
+	 
+		outputFile := pkg.GetFileNameFromURL(targetURL)
+		
 		if !supportsRange {
-			fmt.Println("⚠️ Server does not support range requests. Downloading sequentially...")
+			fmt.Println("⚠️ Server does not support range requests. Falling back to sequential.")
 		} else {
 			fmt.Printf("🚀 Starting concurrent download. Size: %d bytes\n", size)
 		}
 
-		
-	 	success,err := internal.DownloadFile(targetURL,numOfChunks)
+	 
+		err = internal.DownloadFile(targetURL, numOfChunks, outputFile)
+		if err != nil {
+			return fmt.Errorf("download failed: %w", err)
+		}
 
+		fmt.Println("\n✅ Download successful!")
 		return nil
 	},
 }
-
 func init() {
 	rootCmd.AddCommand(downloadCmd)
 
