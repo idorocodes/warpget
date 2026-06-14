@@ -96,7 +96,7 @@ warpget https://example.com/file.zip --limit 2M
 ---
 ## How It Works (High-Level)
 
-- File size is discovered via HEAD request (or first GET)
+- File size is discovered via HEAD request 
 - File is split into byte ranges (equal-sized chunks)
 - Each range is downloaded by a goroutine using `http.Client` with `Range` header
 - Downloads are coordinated using a `sync.WaitGroup` + buffered channels
