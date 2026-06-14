@@ -16,9 +16,10 @@ var downloadCmd = &cobra.Command{
 	Long: `Download initiates a high-performance concurrent download of the file 
 provided via the URL. It splits the file into chunks and downloads them 
 in parallel to maximize network throughput.`,
-	Args: cobra.ExactArgs(1),
+	Args: cobra.ExactArgs(2),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		targetURL := args[0]
+		numOfChunks := args[1]
 	 
 		size, supportsRange, err := internal.FileInfo(targetURL)
 		if err != nil {
@@ -31,7 +32,8 @@ in parallel to maximize network throughput.`,
 			fmt.Printf("🚀 Starting concurrent download. Size: %d bytes\n", size)
 		}
 
-	 
+		
+	 	success,err := internal.DownloadFile(targetURL,numOfChunks)
 
 		return nil
 	},
