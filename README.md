@@ -43,7 +43,7 @@ In short: bytes move faster, CPU stays busy, users stay productive.
 ### From source (recommended)
 
 ```bash
-git clone https://github.com/yourusername/warpget.git
+git clone https://github.com/idorocodes/warpget.git
 cd warpget
 go build -o warpget ./cmd/warpget
 ```
