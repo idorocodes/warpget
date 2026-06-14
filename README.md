@@ -87,11 +87,6 @@ warpget https://a.com/a.zip https://b.com/b.zip
 warpget https://example.com/file.zip --resume
 ```
 
-### Rate limiting (e.g. 2 MiB/s)
-
-```bash
-warpget https://example.com/file.zip --limit 2M
-```
 
 ---
 ## How It Works (High-Level)
