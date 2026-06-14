@@ -1,4 +1,8 @@
- package cmd
+/*
+Copyright © 2026 JOHN AMOS idoroyen33@gmail.com
+*/
+
+package cmd
  
  import (
 	"fmt"
